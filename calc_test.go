@@ -1,11 +1,72 @@
 package date
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
+
+func ExampleDate_Before() {
+	d1 := New(2023, time.July, 13)
+	d2 := New(2023, time.August, 13)
+
+	fmt.Println(d1.Before(d2))
+	// Output: true
+}
+
+func ExampleDate_After() {
+	d1 := New(2023, time.July, 13)
+	d2 := New(2023, time.June, 13)
+
+	fmt.Println(d1.After(d2))
+	// Output: true
+}
+
+func ExampleDate_Equal() {
+	d1 := New(2023, time.July, 13)
+	d2 := New(2023, time.July, 13)
+	d3 := New(2023, time.July, 14)
+
+	fmt.Println(d1.Equal(d2))
+	fmt.Println(d1.Equal(d3))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleDate_Add() {
+	d := New(2023, time.July, 13)
+	d2 := d.Add(1, 1, 1)
+
+	fmt.Println(d2)
+	// Output: 2024-08-14
+}
+
+func ExampleDate_AddYear() {
+	d := New(2023, time.July, 13)
+	d2 := d.AddYear(1)
+
+	fmt.Println(d2)
+	// Output: 2024-07-13
+}
+
+func ExampleDate_AddMonth() {
+	d := New(2023, time.July, 13)
+	d2 := d.AddMonth(1)
+
+	fmt.Println(d2)
+	// Output: 2023-08-13
+}
+
+func ExampleDate_AddDay() {
+	d := New(2023, time.July, 13)
+	d2 := d.AddDay(1)
+
+	fmt.Println(d2)
+	// Output: 2023-07-14
+}
 
 func TestDate_Before(t *testing.T) {
 	tests := []struct {
