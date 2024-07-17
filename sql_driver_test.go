@@ -56,6 +56,18 @@ func TestDate_Scan(t *testing.T) {
 			want: New(2024, 7, 14),
 		},
 		{
+			name: "when src is []byte",
+			date: Date{},
+			args: []byte("2024-07-17"),
+			want: New(2024, 7, 17),
+		},
+		{
+			name:    "when src is []byte and inavlid format",
+			date:    Date{},
+			args:    []byte("hoge"),
+			wantErr: true,
+		},
+		{
 			name:    "when src is int",
 			date:    Date{},
 			args:    10,

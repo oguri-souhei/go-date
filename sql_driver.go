@@ -8,7 +8,7 @@ import (
 
 // Value returns a driver Value.
 // Value must not panic.
-func (d *Date) Value() (driver.Value, error) {
+func (d Date) Value() (driver.Value, error) {
 	return d.String(), nil
 }
 
@@ -39,6 +39,12 @@ func (d *Date) Scan(src any) error {
 		*d = newVal
 	case time.Time:
 		d.t = v
+	case []byte:
+		newVal, err := Parse(string(v))
+		if err != nil {
+			return fmt.Errorf("failed to parse string %+v to date", v)
+		}
+		*d = newVal
 	default:
 		return fmt.Errorf("unexpected date type %+t", v)
 	}

@@ -89,6 +89,42 @@ if err != nil {
 }
 ```
 
+### Using with SQL
+
+The Date type implements the sql.Scanner and driver.Valuer interfaces, allowing it to be used with SQL databases.
+
+```go
+// Event represents an event with a name and a date
+type Event struct {
+    Name string
+    Date date.Date
+}
+
+_, err = db.Exec("CREATE TABLE IF NOT EXISTS events (name VARCHAR(255), date DATE)")
+if err != nil {
+    panic(err)
+}
+
+event := Event{
+    Name: "hoge",
+    Date: date.New(2023, time.July, 13),
+}
+
+_, err = db.Exec("INSERT INTO events (name, date) VALUES (?, ?)", event.Name, event.Date)
+if err != nil {
+    panic(err)
+}
+
+var readEvent Event
+err = db.QueryRow("SELECT name, date FROM events").Scan(&readEvent.Name, &readEvent.Date)
+if err != nil {
+    panic(err)
+}
+
+fmt.Println(readEvent) // Output: {Sample Event 2023-07-13}
+
+```
+
 ## Documentation
 
 For detailed documentation, visit the [GoDoc page](https://pkg.go.dev/github.com/oguri-souhei/go-date).
